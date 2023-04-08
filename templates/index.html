@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Random Number Display</title>
+</head>
+<body>
+	<h1>Random Number: <span id="rand_num"></span></h1>
+
+	<!-- Firebase JavaScript Library -->
+	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+
+	<script>
+		// Khởi tạo Firebase App và Database Reference
+		var firebaseConfig = {
+			apiKey: "AIzaSyAJe9YYJkSYJiwDkDaeg42dEhBgEYeLGb4",
+			authDomain: "argon-radius-377619.firebaseapp.com",
+			databaseURL: "https://argon-radius-377619-default-rtdb.firebaseio.com",
+			projectId: "argon-radius-377619",
+			storageBucket: "argon-radius-377619.appspot.com",
+			messagingSenderId: "629789207848",
+			appId: "1:629789207848:web:f936f5a7e6d32270beb41"
+		};
+		firebase.initializeApp(firebaseConfig);
+		var database = firebase.database();
+		var randNumRef = database.ref('random_number');
+
+		// Đăng ký sự kiện lắng nghe giá trị mới nhất của random number
+		randNumRef.on('value', function(snapshot) {
+			var randNum = snapshot.val();
+			document.getElementById("rand_num").innerHTML = randNum;
+		});
+	</script>
+</body>
+</html>

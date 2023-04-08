@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Random Number Chart</title>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<style>
+    #myChart {
+      max-width: 400px;
+      max-height: 400px;
+    }
+  </style>
+</head>
+<body>
+	<canvas id="myChart"></canvas>
+
+	<!-- Firebase JavaScript Library -->
+	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+
+	<script>
+		// Khởi tạo Firebase App và Database Reference
+		var firebaseConfig = {
+			apiKey: "AIzaSyAJe9YYJkSYJiwDkDaeg42dEhBgEYeLGb4",
+			authDomain: "argon-radius-377619.firebaseapp.com",
+			databaseURL: "https://argon-radius-377619-default-rtdb.firebaseio.com",
+			projectId: "argon-radius-377619",
+			storageBucket: "argon-radius-377619.appspot.com",
+			messagingSenderId: "629789207848",
+			appId: "1:629789207848:web:f936f5a7e6d32270beb41"
+		};
+		firebase.initializeApp(firebaseConfig);
+		var database = firebase.database();
+		var randNumRef = database.ref('random_number');
+
+		// Khởi tạo biểu đồ
+		var ctx = document.getElementById('myChart').getContext('2d');
+		var chart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: [],
+				datasets: [{
+					label: 'Random Number',
+					data: [],
+					borderColor: 'rgb(255, 99, 132)',
+					fill: false
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Random Number Chart'
+				},
+				scales: {
+					xAxes: [{
+						display: true
+					}],
+					yAxes: [{
+						display: true,
+						ticks: {
+							beginAtZero: true
+						}
+					}]
+				}
+			}
+		});
+
+		// Đăng ký sự kiện lắng nghe giá trị mới nhất của random number và cập nhật biểu đồ
+		randNumRef.on('value', function(snapshot) {
+			var randNum = snapshot.val();
+			var time = new Date().toLocaleTimeString();
+			chart.data.labels.push(time);
+			chart.data.datasets[0].data.push(randNum);
+			chart.update();
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Python webpage</title>
+    </head>
+    <body>
+        <h1>Hello, Python!</h1>
+        <py-script>
+            # import necessary modules
+            import random
+
+            # generate random number
+            num = random.randint(0, 100)
+
+            # print random number
+            print("Here's a random number:", num)
+        </py-script>
+    </body>
+</html>
